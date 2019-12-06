@@ -112,3 +112,84 @@ const data = [
   Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
 
 */
+
+const articlesCont = document.querySelector('.articles');
+
+data.forEach(article => {
+  articlesCont.appendChild(articleMaker(article.title, article.date, article.firstParagraph, article.secondParagraph, article.thirdParagraph));
+})
+
+
+function articleMaker(title, date, firstP, secondP, thirdP){
+  const article = document.createElement('div');
+  const articleTitle = document.createElement('h2');
+  const articleDate = document.createElement('p');
+  const pCont = document.createElement('div');
+  const articleFirstP = document.createElement('p');
+  const articleSecondP = document.createElement('p');
+  const articleThirdP = document.createElement('p');
+  const button = document.createElement('span');
+  const closeButton = document.createElement('button');
+
+  article.appendChild(closeButton);
+  article.appendChild(articleTitle);
+  article.appendChild(articleDate);
+  article.appendChild(pCont);
+  pCont.appendChild(articleFirstP);
+  pCont.appendChild(articleSecondP);
+  pCont.appendChild(articleThirdP);
+  article.appendChild(button);
+
+  article.classList.add('article');
+  articleDate.classList.add('date');
+  pCont.classList.add('pCont');
+  button.classList.add('expandButton');
+
+  closeButton.textContent = "X";
+  closeButton.style.color = 'white';
+  closeButton.style.background = 'red';
+  closeButton.style.borderRadius = '7px';
+
+  $(pCont).slideUp(); 
+
+  button.addEventListener('click', () => {
+    if (button.textContent === 'Click to Expand'){
+      button.textContent = 'Click to Collapse';
+      $(pCont).slideDown(); 
+    }else {
+      button.textContent = 'Click to Expand';
+      $(pCont).slideUp(); 
+    }
+  })
+
+  closeButton.addEventListener('click', () =>{
+    $(article).slideUp(); 
+  })
+
+  articleTitle.textContent = title;
+  articleDate.textContent = date;
+  articleFirstP.textContent = firstP;
+  articleSecondP.textContent = secondP;
+  articleThirdP.textContent = thirdP;
+  button.textContent = 'Click to Expand';
+
+  return article;
+}
+
+// new article maker:
+
+const makeNewArticleButton = document.createElement('button');
+makeNewArticleButton.textContent = "Publish New Article";
+makeNewArticleButton.style.fontSize = "1.5rem";
+document.querySelector('form').appendChild(makeNewArticleButton);
+
+const titleInput = document.querySelector('form .titleInput');
+const dateInput = document.querySelector('form .dateInput');
+const firstPInput = document.querySelector('form .pInput1');
+const secondPInput = document.querySelector('form .pInput2');
+const thirdPInput = document.querySelector('form .pInput3');
+
+makeNewArticleButton.addEventListener('click', (e) =>{
+  e.preventDefault();
+  articlesCont.appendChild(articleMaker(titleInput.value, dateInput.value, firstPInput.value, secondPInput.value, thirdPInput.value));
+})
